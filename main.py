@@ -7,7 +7,8 @@ class Hat:
         self.contents = []
         for color, count in kwargs.items():
             self.contents.extend([color] * count)
-    
+            
+    #Draws number of balls randomly from the hat
     def draw(self, num_balls_drawn):
         if num_balls_drawn > len(self.contents):
             drawn_balls = self.contents.copy()  
@@ -22,7 +23,7 @@ class Hat:
     def __str__(self):
         return f'{self.contents}'
 
-
+#Runs probability experiment to analyze success rate of drawing given colors over a given number of iterations
 def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
     success_count = 0
     probability = 0
