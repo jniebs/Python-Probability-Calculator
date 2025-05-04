@@ -7,8 +7,7 @@ class Hat:
         self.contents = []
         for color, count in kwargs.items():
             self.contents.extend([color] * count)
-            
-    #Draws number of balls randomly from the hat
+    
     def draw(self, num_balls_drawn):
         if num_balls_drawn > len(self.contents):
             drawn_balls = self.contents.copy()  
@@ -23,7 +22,7 @@ class Hat:
     def __str__(self):
         return f'{self.contents}'
 
-#Runs probability experiment to analyze success rate of drawing given colors over a given number of iterations
+
 def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
     success_count = 0
     probability = 0
@@ -51,6 +50,49 @@ def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
 
     return probability
 
+def clean_input(text):
+    # Remove non-printable characters and spaces at the ends
+    cleaned_text = ''.join(ch for ch in text if ch in string.printable and ch != '\x7f')
+    
+        
+# Prompting user for inputs
+def get_user_input():
+    # Getting number of balls in the hat
+    num_balls = int(input("How many types of balls do you have? "))
+    
+    colors = {}
+    for _ in range(num_balls):
+        color = input("Enter the color of the ball: ")
+        count = int(input(f"How many balls of color {color} are there? "))
+        colors[color] = count
+    
+    # Create the Hat object
+    hat = Hat(**colors)
+
+    # Getting expected balls and number of draws for experiment
+
+    expected_balls = {}
+    total_expected_balls = 0 
+    num_expected = int(input("How many types of balls are expected to be drawn? "))
+    for _ in range(num_expected):
+        color = input("Enter the color of the expected ball: ")
+        count = int(input(f"How many {color} balls are expected? "))
+        expected_balls[color] = count
+        total_expected_balls += count  
+
+    num_balls_drawn = total_expected_balls
+    num_experiments = int(input("How many experiments would you like to run? "))
+
+    return hat, expected_balls, num_balls_drawn, num_experiments
+
+# Run the experiment
+def run_experiment():
+    hat, expected_balls, num_balls_drawn, num_experiments = get_user_input()
+    probability = experiment(hat, expected_balls, num_balls_drawn, num_experiments)
+    print(f"\nThe probability of drawing the expected balls is: {probability}")
+
+# Call the function to start the experiment
+run_experiment()
 
 
 hat1 = Hat(yellow=3, blue=2, green=6)
